@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +9,7 @@ import { Observable } from 'rxjs';
 export class AuthService {
   private hosting: string = 'http://127.0.0.1:8000/';
   private action: string = 'api/auth/login';
+  private cambioPasswordEndpoint: string = 'api/auth/cambio-password'
   private isLogin: boolean = false;
   private authSecretKey: string = 'Token_Bearer';
   private options: any;
@@ -25,11 +27,13 @@ export class AuthService {
   login(email: string, password: string): Observable<any> {
     return this.http.post(
       this.hosting + this.action,
-      {
-        email: email,
-        password: password,
-      },
+      { email, password },
       this.options
+    ).pipe(
+      catchError((error) => {
+        // Manejar el error aquí, por ejemplo, lanzar un nuevo error con un mensaje específico
+        return throwError('Usuario o contraseña incorrectos');
+      })
     );
   }
   isUserLogin(): boolean {
@@ -43,5 +47,26 @@ export class AuthService {
     localStorage.setItem(this.authSecretKey, tokeSecret);
     this.isLogin = true;
   }
-  
+  cambioPassword(currentPassword: string, newPassword: string): Observable<any> {
+    // Asegúrate de ajustar la estructura de datos según las necesidades de tu API
+    const requestBody = {
+      current_password: currentPassword,
+      new_password: newPassword,
+    };
+    // Realiza la solicitud POST al endpoint de cambio de contraseña
+    return this.http.post(
+      this.hosting + this.cambioPasswordEndpoint,
+      requestBody
+    );
+    // return this.http.post(
+    //   this.hosting + this.cambioPasswordEndpoint,
+    //   { current_password, new_password },
+    //   this.options
+    // ).pipe(
+    //   catchError((error) => {
+    //     // Manejar el error aquí, por ejemplo, lanzar un nuevo error con un mensaje específico
+    //     return throwError('Contraseña incorrectos');
+    //   })
+    // );
+  }
 }

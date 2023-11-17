@@ -9,6 +9,7 @@ import { CrearSolicitudesComponent } from './componente/crear-solicitudes/crear-
 import { ListaSolicitudesComponent } from './componente/lista-solicitudes/lista-solicitudes.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
+import { CambioPasswordComponent } from './componente/cambio-password/cambio-password.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { LoginComponent } from './login/login.component';
     SolicitudesComponent,
     CrearSolicitudesComponent,
     ListaSolicitudesComponent,
-    LoginComponent
+    LoginComponent,
+    CambioPasswordComponent
   ],
   imports: [
     BrowserModule,
