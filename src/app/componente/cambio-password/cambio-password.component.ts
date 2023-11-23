@@ -36,20 +36,16 @@ export class CambioPasswordComponent implements OnInit{
           this.authService.cambioPassword(currentPassword, newPassword).subscribe(
             (resp) => {
               console.log('Contraseña cambiada exitosamente');
-              // Puedes agregar lógica adicional, como redirigir a otra página o mostrar un mensaje de éxito.
             },
             (err) => {
               console.error('Error al cambiar la contraseña:', err);
-              // Puedes mostrar un mensaje de error al usuario.
             }
           );
         } else {
           console.error('Las contraseñas no coinciden');
-          // Puedes mostrar un mensaje de error al usuario indicando que las contraseñas no coinciden.
         }
       } else {
         console.error('Alguno de los controles de formulario es nulo');
-        // Puedes manejar este caso según tus necesidades.
       }
     }
   }

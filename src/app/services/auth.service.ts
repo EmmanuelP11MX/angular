@@ -31,7 +31,6 @@ export class AuthService {
       this.options
     ).pipe(
       catchError((error) => {
-        // Manejar el error aquí, por ejemplo, lanzar un nuevo error con un mensaje específico
         return throwError('Usuario o contraseña incorrectos');
       })
     );
@@ -48,7 +47,6 @@ export class AuthService {
     this.isLogin = true;
   }
   cambioPassword(currentPassword: string, newPassword: string): Observable<any> {
-    // Asegúrate de ajustar la estructura de datos según las necesidades de tu API
     const requestBody = {
       current_password: currentPassword,
       new_password: newPassword,
@@ -58,15 +56,5 @@ export class AuthService {
       this.hosting + this.cambioPasswordEndpoint,
       requestBody
     );
-    // return this.http.post(
-    //   this.hosting + this.cambioPasswordEndpoint,
-    //   { current_password, new_password },
-    //   this.options
-    // ).pipe(
-    //   catchError((error) => {
-    //     // Manejar el error aquí, por ejemplo, lanzar un nuevo error con un mensaje específico
-    //     return throwError('Contraseña incorrectos');
-    //   })
-    // );
   }
 }
