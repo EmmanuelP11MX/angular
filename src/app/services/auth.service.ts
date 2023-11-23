@@ -51,10 +51,16 @@ export class AuthService {
       current_password: currentPassword,
       new_password: newPassword,
     };
+    this.options={
+      headers:new Headers({
+
+        Authorization:'Bearer '+localStorage.getItem(this.authSecretKey)
+      })
+    };
     // Realiza la solicitud POST al endpoint de cambio de contraseña
     return this.http.post(
       this.hosting + this.cambioPasswordEndpoint,
-      requestBody
+      requestBody,this.options
     );
   }
 }

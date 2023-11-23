@@ -9,6 +9,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class CambioPasswordComponent implements OnInit{
   cambioPasswordForm!: FormGroup;
+  errorMessage: string = '';
+  successMessage: string = '';
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService) {}
 
@@ -21,6 +23,8 @@ export class CambioPasswordComponent implements OnInit{
   }
 
   onCambioPassword() {
+    this.errorMessage = '';
+    this.successMessage = '';
     if (this.cambioPasswordForm && this.cambioPasswordForm.valid) {
       const currentPasswordControl = this.cambioPasswordForm.get('currentPassword');
       const newPasswordControl = this.cambioPasswordForm.get('newPassword');
@@ -36,16 +40,20 @@ export class CambioPasswordComponent implements OnInit{
           this.authService.cambioPassword(currentPassword, newPassword).subscribe(
             (resp) => {
               console.log('Contraseña cambiada exitosamente');
+              this.successMessage = 'Cambio de contraseña Exitoso';
             },
             (err) => {
-              console.error('Error al cambiar la contraseña:', err);
+              console.error('Error, tu nueva contraseña es muy corta', err);
+              this.errorMessage = 'Error, tu nueva contraseña es muy corta';
             }
           );
         } else {
           console.error('Las contraseñas no coinciden');
+          this.errorMessage = 'Error las contraseñas no coinciden';
         }
       } else {
         console.error('Alguno de los controles de formulario es nulo');
+        this.errorMessage = 'Error alguno de los controles de formulario es nulo';
       }
     }
   }
